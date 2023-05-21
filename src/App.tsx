@@ -1,25 +1,43 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-
+import React from "react";
+import logo from "./logo.svg";
+import "./App.css";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+  useLocation,
+  Outlet,
+} from "react-router-dom";
+import AdminRoutes from "./components/routes/AdminRoutes";
+import UserRoutes from "./components/routes/UserRoutes";
+import LoginPage from "./components/common/LoginPage";
 function App() {
+  const storedData = localStorage.getItem("userInfo");
+  const userRole = storedData ? JSON.parse(storedData) : null;
+  console.log(userRole);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Routes>
+        {/* <Route path="/df" element={<UserPageOne />} /> */}
+        <Route
+          path="/login"
+          element={userRole ? <Navigate to="/dashboard" /> : <LoginPage />}
+        />
+        <Route
+          path="/*"
+          element={
+            userRole === "user" ? (
+              <UserRoutes />
+            ) : userRole === "admin" ? (
+              <AdminRoutes />
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
+      </Routes>
+    </Router>
   );
 }
 
