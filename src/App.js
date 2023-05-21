@@ -1,27 +1,24 @@
-import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   Navigate,
-  useLocation,
-  Outlet,
 } from "react-router-dom";
 import AdminRoutes from "./components/routes/AdminRoutes";
 import UserRoutes from "./components/routes/UserRoutes";
 import LoginPage from "./components/common/LoginPage";
+import { useSelector } from "react-redux";
 function App() {
   const storedData = localStorage.getItem("userInfo");
-  const userRole = storedData ? JSON.parse(storedData) : null;
-  console.log(userRole);
+  const userLogin = useSelector((state) => state.userLogin.userInfo);
+  const userRole = storedData || userLogin ? JSON.parse(storedData) : null;
+
   return (
     <Router>
       <Routes>
-        {/* <Route path="/df" element={<UserPageOne />} /> */}
         <Route
-          path="/login"
+          path="/"
           element={userRole ? <Navigate to="/dashboard" /> : <LoginPage />}
         />
         <Route
@@ -32,7 +29,7 @@ function App() {
             ) : userRole === "admin" ? (
               <AdminRoutes />
             ) : (
-              <Navigate to="/login" />
+              <Navigate to="/" />
             )
           }
         />

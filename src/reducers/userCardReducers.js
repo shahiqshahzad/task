@@ -32,6 +32,8 @@ export const cardListReducer = (state = { cards: [] }, action) => {
         }
         return post;
       });
+      localStorage.setItem("cards", JSON.stringify(updatedPosts));
+
       return {
         ...state,
         cards: updatedPosts,
@@ -44,7 +46,8 @@ export const cardListReducer = (state = { cards: [] }, action) => {
         }
         return post;
       });
-      localStorage.setItem("cards", cardLikeUpdated);
+
+      localStorage.setItem("cards", JSON.stringify(cardLikeUpdated));
       return {
         ...state,
         cards: cardLikeUpdated,

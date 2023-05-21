@@ -1,7 +1,9 @@
+import { usersData } from "../components/data/usersData";
 import {
   USER_LOGIN_FAIL,
   USER_LOGIN_REQUEST,
   USER_LOGIN_SUCCESS,
+  USER_LOGOUT,
 } from "../constants/userConstants";
 
 export const login = (email, password) => async (dispatch) => {
@@ -11,14 +13,12 @@ export const login = (email, password) => async (dispatch) => {
     });
 
     let userRole = "";
-    if (email === "user@example.com") {
-      userRole = "user";
-    } else if (email === "admin@example.com") {
-      userRole = "admin";
+    const foundUser = usersData.find((user) => user.email === email);
+    if (foundUser && foundUser.password === password) {
+      userRole = foundUser.role;
     } else {
       throw new Error("Invalid User");
     }
-
     dispatch({
       type: USER_LOGIN_SUCCESS,
       payload: {
@@ -29,7 +29,13 @@ export const login = (email, password) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: USER_LOGIN_FAIL,
-      payload: error.message,
+      payload: error,
     });
   }
+};
+
+export const logout = () => (dispatch) => {
+  localStorage.removeItem("userInfo");
+  localStorage.removeItem("cards");
+  dispatch({ type: USER_LOGOUT });
 };

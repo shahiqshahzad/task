@@ -10,7 +10,9 @@ import {
 export const listCards = () => (dispatch) => {
   try {
     dispatch({ type: CARD_LIST_REQUEST });
-    const cardData = data;
+    const card = localStorage.getItem("cards");
+    const cardLocalStroage = card ? JSON.parse(card) : null;
+    const cardData = cardLocalStroage ? cardLocalStroage : data;
     dispatch({ type: CARD_LIST_SUCCESS, payload: cardData });
   } catch (error) {
     dispatch({

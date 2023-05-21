@@ -18,14 +18,14 @@ const Card = ({ item }) => {
     }));
   };
   return (
-    <div key={item.id} className="bg-white rounded-lg p-4 shadow">
+    <div className="bg-white rounded-lg p-4 shadow">
       <div className="flex items-center mb-4">
         <img
           className="w-10 h-10 rounded-full mr-2"
           src={item.Image}
           alt="User 1 Avatar"
         />
-        <h2 className="text-lg font-bold">User 1</h2>
+        <h2 className="text-lg font-bold">{item.name}</h2>
       </div>
       <p className="text-sm text-gray-700 mb-4">{item.text}</p>
       <div className="flex justify-between items-center">
